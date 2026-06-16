@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Le Portail du Pêcheur — San Pedro, Côte d'Ivoire</title>
+    <meta name="description" content="Application de vente de poisson frais en ligne - San Pedro, Côte d'Ivoire">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F6E56;
+            --primary-dark: #0a4d3c;
+            --primary-light: #E1F5EE;
+            --secondary: #FF8C00;
+            --accent: #FF6B35;
+            --bg: #fff;
+            --bg-secondary: #f5f7fa;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555;
+            --text-tertiary: #999;
+            --border: #e5e7eb;
+            --border-light: #f0f0f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.07);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+            --radius-sm: 6px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: 0.2s ease;
+            --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font);
+            background: #dce3ea;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        /* ═══════ SLIDE ACCUEIL ═══════ */
+        #slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+            background: linear-gradient(160deg, #0F6E56 0%, #085041 35%, #052d23 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #slide::before {
+            content: '';
+            position: absolute; top: -40%; left: -30%;
+            width: 180%; height: 180%;
+            background: radial-gradient(ellipse at 30% 25%, rgba(255,255,255,0.05) 0%, transparent 60%);
+            animation: float 18s ease-in-out infinite;
+        }
+        #slide > * { position: relative; z-index: 1; }
+        @keyframes float {
+            0%,100%{ transform: translate(0,0) rotate(0deg); }
+            33%{ transform: translate(2%,1.5%) rotate(1deg); }
+            66%{ transform: translate(-1%,-2%) rotate(-0.5deg); }
+        }
+        .slide-logo {
+            width: 90px; height: 90px;
+            background: rgba(255,255,255,0.14);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 46px;
+            margin-bottom: 18px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.22);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,100%{ box-shadow: 0 0 0 0 rgba(255,255,255,0.25); }
+            50%{ box-shadow: 0 0 0 22px rgba(255,255,255,0); }
+        }
+        .slide-title { color: #fff; font-size: clamp(26px,5vw,40px); font-weight: 900; margin-bottom: 6px; letter-spacing: -0.5px; }
+        .slide-sub { color: rgba(255,255,255,0.72); font-size: clamp(13px,2.5vw,16px); margin-bottom: 32px; }
+        .qr-card {
+            background: #fff; border-radius: var(--radius-xl);
+            padding: 24px 20px 18px;
+            display: inline-flex; flex-direction: column; align-items: center; gap: 12px;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+            animation: fadeInUp 0.8s ease;
+        }
+        .qr-card:hover { transform: translateY(-5px); box-shadow: 0 18px 45px rgba(0,0,0,0.4); }
+        @keyframes fadeInUp { from{ opacity:0; transform:translateY(30px); } to{ opacity:1; transform:translateY(0); } }
+        #qr-canvas { display:block; border-radius: 8px; }
+        .qr-label { font-size: 13px; color: var(--primary); font-weight: 700; background: var(--primary-light); padding: 6px 16px; border-radius: 20px; }
+        .badge-row { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+        .badge {
+            background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; border-radius: 20px; padding: 8px 16px; font-size: 12px;
+            display: flex; align-items: center; gap: 6px;
+            backdrop-filter: blur(5px);
+            animation: fadeInUp 0.8s ease backwards;
+        }
+        .badge:nth-child(1){ animation-delay:0.1s; }
+        .badge:nth-child(2){ animation-delay:0.2s; }
+        .badge:nth-child(3){ animation-delay:0.3s; }
+        .badge:nth-child(4){ animation-delay:0.4s; }
+        .demo-btn {
+            margin-top: 28px;
+            background: #fff; color: var(--primary);
+            border: none; border-radius: 14px;
+            padding: 16px 38px; font-size: 16px; font-weight: 800;
+            cursor: pointer; display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+            transition: all var(--transition);
+            animation: fadeInUp 0.8s ease 0.5s backwards;
+        }
+        .demo-btn:hover { transform: scale(1.04); box-shadow: 0 8px 32px rgba(0,0,0,0.35); }
+        .demo-btn:active { transform: scale(0.97); }
+        .author { color: rgba(255,255,255,0.45); font-size: 12px; margin-top: 24px; line-height: 1.8; }
+
+        /* ═══════ APP VIEW ═══════ */
+        #app-view {
+            display: none; min-height: 100vh; height: 100vh;
+            background: #dce3ea;
+            align-items: center; justify-content: center; flex-direction: column;
+            position: relative;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.95); border: 2px solid #e5e7eb;
+            border-radius: var(--radius); padding: 8px 16px; font-size: 13px;
+            cursor: pointer; color: var(--primary); font-weight: 600;
+            display: flex; align-items: center; gap: 6px;
+            position: fixed; top: 12px; left: 12px; z-index: 9999;
+            box-shadow: var(--shadow-md); transition: all var(--transition);
+            backdrop-filter: blur(20px);
+        }
+        .back-btn:hover { background: #fff; transform: translateY(-2px); }
+        .app-frame {
+            width: 100%; max-width: 420px; height: 100vh; max-height: 100vh;
+            overflow: hidden; background: var(--bg);
+            display: flex; flex-direction: column;
+            box-shadow: 0 0 60px rgba(0,0,0,0.22);
+        }
+        @media (min-width: 430px) {
+            .app-frame { border-radius: 22px; height: 92vh; max-height: 860px; }
+        }
+        @media (min-width: 768px) {
+            .app-frame { border-radius: 26px; height: 90vh; max-height: 900px; }
+        }
+
+        /* ═══════ APP BAR ═══════ */
+        .app-bar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 12px 16px; color: #fff;
+            display: flex; align-items: center; gap: 10px;
+            flex-shrink: 0; position: relative; z-index: 10;
+        }
+        .logo-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .logo-text { font-size: 15px; font-weight: 700; flex: 1; letter-spacing: -0.3px; }
+        .app-bar-actions { display: flex; gap: 6px; }
+        .icon-btn {
+            background: rgba(255,255,255,0.15); border: none; cursor: pointer;
+            padding: 8px; border-radius: 50%; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            transition: all var(--transition); position: relative;
+        }
+        .icon-btn:hover { background: rgba(255,255,255,0.27); }
+        .cart-badge {
+            position: absolute; top: -2px; right: -2px;
+            background: #FF4444; color: #fff; font-size: 10px;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; border: 2px solid var(--primary);
+        }
+
+        /* ═══════ SCREEN ═══════ */
+        .screen {
+            flex: 1; overflow-y: auto; overflow-x: hidden;
+            padding: 0 0 70px; background: var(--bg-secondary);
+            -webkit-overflow-scrolling: touch;
+        }
+        .screen::-webkit-scrollbar { width: 3px; }
+        .screen::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+        /* ═══════ HERO ═══════ */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #0a5c47 100%);
+            padding: 16px 16px 20px; color: #fff;
+            border-radius: 0 0 22px 22px; position: relative; overflow: hidden;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -24px; right: -24px;
+            width: 130px; height: 130px; background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .hero-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .hero-greeting { font-size: 13px; opacity: 0.85; }
+        .hero-user-name { font-size: 17px; font-weight: 800; }
+        .hero-location { font-size: 11px; opacity: 0.7; display: flex; align-items: center; gap: 3px; margin-top: 2px; }
+        .hero-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; border: 2px solid rgba(255,255,255,0.3);
+            cursor: pointer; overflow: hidden;
+        }
+        .hero-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .hero p { font-size: 12px; margin: 0 0 12px; opacity: 0.82; line-height: 1.5; }
+        .search-bar {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.18); border-radius: 12px;
+            padding: 10px 14px; backdrop-filter: blur(10px);
+            transition: all var(--transition);
+        }
+        .search-bar:focus-within { background: rgba(255,255,255,0.28); box-shadow: 0 0 0 3px rgba(255,255,255,0.12); }
+        .search-bar input { background: none; border: none; outline: none; color: #fff; font-size: 14px; flex: 1; font-family: var(--font); }
+        .search-bar input::placeholder { color: rgba(255,255,255,0.6); }
+
+        /* ═══════ PROMO BANNER ═══════ */
+        .promo-banner {
+            margin: 14px 14px 0;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8C00 100%);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            display: flex; align-items: center; gap: 12px;
+            color: #fff; overflow: hidden; position: relative;
+        }
+        .promo-banner::after {
+            content: ''; position: absolute; right: -20px; top: -20px;
+            width: 90px; height: 90px;
+            background: rgba(255,255,255,0.1); border-radius: 50%;
+        }
+        .promo-icon { font-size: 32px; flex-shrink: 0; }
+        .promo-text h4 { font-size: 14px; font-weight: 800; margin-bottom: 2px; }
+        .promo-text p { font-size: 11px; opacity: 0.9; }
+        .promo-badge {
+            margin-left: auto; background: #fff; color: #FF6B35;
+            font-size: 12px; font-weight: 800;
+            padding: 6px 12px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; position: relative; z-index: 1;
+        }
+
+        /* ═══════ CATEGORIES ═══════ */
+        .categories-row {
+            display: flex; gap: 8px;
+            padding: 12px 14px 4px; overflow-x: auto;
+        }
+        .categories-row::-webkit-scrollbar { display: none; }
+        .cat-chip {
+            display: flex; align-items: center; gap: 6px;
+            padding: 7px 14px; border-radius: 20px;
+            font-size: 12px; font-weight: 600; white-space: nowrap;
+            cursor: pointer; transition: all var(--transition);
+            border: 2px solid var(--border); background: #fff; color: var(--text-secondary);
+        }
+        .cat-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .cat-chip:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
+
+        /* ═══════ SECTION HEADER ═══════ */
+        .section-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 8px; }
+        .section-title { font-size: 15px; font-weight: 800; color: var(--text-primary); }
+        .section-badge { font-size: 11px; color: var(--primary); background: var(--primary-light); padding: 4px 10px; border-radius: 12px; font-weight: 700; }
+        .section-link { font-size: 12px; color: var(--primary); font-weight: 600; cursor: pointer; }
+
+        /* ═══════ PRODUCT GRID ═══════ */
+        .pgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 14px; }
+        .pcard {
+            background: #fff; border-radius: var(--radius); overflow: hidden;
+            cursor: pointer; box-shadow: var(--shadow-sm);
+            transition: all var(--transition); border: 1.5px solid transparent;
+        }
+        .pcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+        .pcard:active { transform: scale(0.97); }
+        .pimg {
+            height: 110px; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #EFF4F8 0%, #e5eef4 100%);
+            position: relative; overflow: hidden;
+        }
+        .pimg img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .pcard:hover .pimg img { transform: scale(1.08); }
+        .pimg-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .fresh-badge {
+            position: absolute; top: 7px; left: 7px;
+            background: linear-gradient(135deg, #0F6E56, #0a5c47);
+            color: #fff; font-size: 9px; font-weight: 800;
+            padding: 3px 8px; border-radius: 10px; letter-spacing: 0.5px;
+        }
+        .discount-badge {
+            position: absolute; top: 7px; right: 7px;
+            background: #FF4444; color: #fff; font-size: 9px; font-weight: 800;
+            padding: 3px 7px; border-radius: 10px;
+        }
+        .pbody { padding: 10px 10px 8px; }
+        .pname { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .psub { font-size: 10px; color: var(--text-tertiary); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .pfooter { display: flex; align-items: center; justify-content: space-between; }
+        .pprice { font-size: 13px; font-weight: 800; color: var(--primary); }
+        .pprice-unit { font-size: 10px; font-weight: 500; color: var(--text-tertiary); }
+        .add-btn {
+            width: 28px; height: 28px; background: var(--primary); color: #fff;
+            border: none; border-radius: 50%; font-size: 20px; line-height: 1;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all var(--transition); font-weight: 400;
+        }
+        .add-btn:hover { background: var(--primary-dark); transform: scale(1.1); }
+        .in-cart-indicator { font-size: 10px; color: var(--primary); margin-top: 5px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
+
+        /* ═══════ COOPS ═══════ */
+        .coops-row { display: flex; gap: 8px; padding: 0 14px 16px; overflow-x: auto; }
+        .coops-row::-webkit-scrollbar { display: none; }
+        .coop-chip {
+            background: #fff; padding: 10px 14px; border-radius: 20px;
+            font-size: 11px; font-weight: 600; white-space: nowrap;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            display: flex; align-items: center; gap: 6px; color: var(--text-secondary);
+            border: 1.5px solid var(--border); cursor: pointer; transition: all var(--transition);
+        }
+        .coop-chip:hover { border-color: var(--primary); color: var(--primary); }
+        .coop-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
+
+        /* ═══════ DETAIL ═══════ */
+        .brow {
+            display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+            cursor: pointer; color: var(--text-primary); font-size: 14px; font-weight: 700;
+            background: #fff; transition: background var(--transition);
+            border-bottom: 1px solid var(--border-light);
+        }
+        .brow:hover { background: var(--bg-secondary); }
+        .dimg {
+            height: 240px; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #EFF4F8, #e5eef4); overflow: hidden; position: relative;
+        }
+        .dimg img { width: 100%; height: 100%; object-fit: cover; }
+        .dimg-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .dimg-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            padding: 16px; display: flex; gap: 8px;
+        }
+        .dimg-badge {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(8px);
+            color: var(--primary); font-size: 11px; font-weight: 700;
+            padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 4px;
+        }
+        .dbody { padding: 16px; background: #fff; border-radius: 18px 18px 0 0; margin-top: -16px; position: relative; }
+        .dname { font-size: 22px; font-weight: 900; color: var(--text-primary); margin: 0 0 4px; }
+        .dvendor { font-size: 12px; color: var(--text-secondary); margin: 0 0 10px; display: flex; align-items: center; gap: 4px; }
+        .dprice { font-size: 28px; font-weight: 900; color: var(--primary); margin: 0 0 14px; }
+        .dprice span { font-size: 14px; font-weight: 400; color: var(--text-tertiary); }
+        .badge-row-detail { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+        .bdg { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .bdg-fresh { background: var(--primary-light); color: var(--primary-dark); }
+        .bdg-date  { background: #F1F5F9; color: #475569; }
+        .qrow { display: flex; align-items: center; gap: 12px; margin: 14px 0; background: var(--bg-secondary); padding: 12px; border-radius: var(--radius); }
+        .qbtn { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--border); background: #fff; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; color: var(--text-primary); font-weight: 600; transition: all var(--transition); }
+        .qbtn:hover { border-color: var(--primary); color: var(--primary); }
+        .qval { font-size: 20px; font-weight: 800; min-width: 40px; text-align: center; color: var(--text-primary); }
+        .qtotal { margin-left: auto; font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+        .qtotal strong { color: var(--primary); font-size: 16px; }
+        .btn-primary {
+            width: 100%; padding: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff; border: none; border-radius: var(--radius);
+            font-size: 15px; font-weight: 700; cursor: pointer; transition: all var(--transition);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15,110,86,0.3); }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-secondary {
+            width: 100%; padding: 14px; background: #fff; color: var(--primary);
+            border: 2px solid var(--primary); border-radius: var(--radius);
+            font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px;
+            transition: all var(--transition); display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .btn-secondary:hover { background: var(--primary-light); }
+        .btn-danger { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+        .btn-danger:hover { background: #fecaca; }
+
+        /* ═══════ CART ═══════ */
+        .cart-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #fff; border-bottom: 1px solid var(--border-light); transition: background var(--transition); }
+        .cart-item:hover { background: #fafbfc; }
+        .cart-item-img { width: 56px; height: 44px; border-radius: 8px; overflow: hidden; flex-shrink: 0; background: #F0F4F8; }
+        .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+        .cart-item-img-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+        .cart-item-qty { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+        .cart-item-price { font-size: 14px; font-weight: 800; color: var(--primary); text-align: right; white-space: nowrap; }
+        .cart-item-remove { background: none; border: none; color: #ff4444; cursor: pointer; font-size: 16px; padding: 6px; border-radius: 50%; transition: all var(--transition); }
+        .cart-item-remove:hover { background: #fee2e2; }
+        .cart-summary { background: #fff; margin: 10px 14px; border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); }
+        .summary-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+        .summary-row.total { font-weight: 800; color: var(--text-primary); font-size: 16px; border-top: 2px dashed var(--border); padding-top: 12px; margin-top: 8px; }
+        .summary-row.total span:last-child { color: var(--primary); font-size: 18px; }
+        .payment-section { padding: 0 14px 16px; }
+        .payment-title { font-size: 14px; font-weight: 800; color: var(--text-primary); margin: 14px 0 10px; display: flex; align-items: center; gap: 6px; }
+        .payment-option { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 2px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; cursor: pointer; transition: all var(--transition); background: #fff; }
+        .payment-option:hover { border-color: #cbd5e1; }
+        .payment-option.selected { border-color: var(--primary); background: var(--primary-light); }
+        .payment-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; color: #fff; flex-shrink: 0; }
+        .payment-icon.orange { background: linear-gradient(135deg, #FF6600, #FF8800); }
+        .payment-icon.mtn { background: linear-gradient(135deg, #FFCC00, #FFAA00); color: #003087; }
+        .payment-icon.wave { background: linear-gradient(135deg, #1A56E8, #0E3ECC); }
+        .payment-name { font-size: 14px; font-weight: 600; color: var(--text-primary); flex: 1; }
+        .payment-check { color: var(--primary); font-size: 20px; }
+        .empty-cart { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
+        .empty-cart-icon { font-size: 60px; margin-bottom: 16px; opacity: 0.5; }
+
+        /* ═══════ CONFIRM ═══════ */
+        .confirm-screen { text-align: center; padding: 40px 24px; background: #fff; min-height: 100%; }
+        .confirm-icon { font-size: 70px; margin-bottom: 16px; animation: bounceIn 0.7s ease; }
+        @keyframes bounceIn { 0%{ transform: scale(0.3); opacity: 0; } 50%{ transform: scale(1.12); } 70%{ transform: scale(0.9); } 100%{ transform: scale(1); opacity: 1; } }
+        .confirm-title { font-size: 22px; font-weight: 900; color: var(--text-primary); margin-bottom: 8px; }
+        .confirm-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6; }
+        .tracking-steps { text-align: left; margin: 20px 0; }
+        .tracking-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+        .step-dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-top: 1px; font-weight: 800; }
+        .step-dot.done { background: var(--primary); color: #fff; }
+        .step-dot.pending { background: #f1f5f9; border: 2px solid #d1d5db; color: #94a3b8; }
+        .step-content .step-title { font-weight: 700; font-size: 13px; color: var(--text-primary); }
+        .step-content .step-desc { font-size: 11px; color: var(--text-secondary); }
+        .confirm-amount { background: var(--primary-light); border-radius: var(--radius); padding: 18px; margin: 20px 0; }
+        .confirm-amount-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .confirm-amount-value { font-size: 30px; font-weight: 900; color: var(--primary); }
+
+        /* ═══════ VENDOR ═══════ */
+        .vendor-screen { padding: 16px; }
+        .vendor-header { background: #fff; border-radius: var(--radius); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 12px; }
+        .vendor-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; }
+        .vendor-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .vendor-info .vendor-name { font-size: 16px; font-weight: 800; color: var(--text-primary); margin-bottom: 3px; }
+        .vendor-info .vendor-id { font-size: 11px; color: var(--text-tertiary); }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+        .stat-card { background: #fff; border-radius: var(--radius); padding: 14px; text-align: center; box-shadow: var(--shadow-sm); transition: all var(--transition); border: 1.5px solid var(--border-light); }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+        .stat-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .stat-value { font-size: 26px; font-weight: 900; color: var(--text-primary); }
+        .stat-value.green { color: var(--primary); }
+        .stat-value.gold { color: #BA7517; }
+        .stat-value.blue { color: #2563eb; }
+        .vendor-section-title { font-size: 13px; font-weight: 800; color: var(--text-primary); margin: 14px 0 10px; }
+        .order-item { background: #fff; border-radius: var(--radius); padding: 12px 14px; margin-bottom: 8px; box-shadow: var(--shadow-sm); border-left: 4px solid var(--primary); }
+        .order-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .order-id { font-size: 12px; font-weight: 700; color: var(--text-primary); }
+        .order-status { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; }
+        .order-status.en-cours { background: #FEF3C7; color: #92400E; }
+        .order-status.livre { background: var(--primary-light); color: var(--primary-dark); }
+        .order-desc { font-size: 11px; color: var(--text-secondary); }
+        .add-product-form { background: #fff; border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-sm); margin-top: 12px; display: none; }
+        .form-field { margin-bottom: 12px; }
+        .form-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block; }
+        .form-input { width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: var(--font); outline: none; transition: border-color var(--transition); color: var(--text-primary); background: #fff; }
+        .form-input:focus { border-color: var(--primary); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* ═══════ PROFILE ═══════ */
+        .profile-screen { padding: 16px; }
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6); z-index: 1000;
+            display: none; align-items: flex-end; justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-sheet {
+            background: #fff; border-radius: 22px 22px 0 0;
+            padding: 0 0 20px; width: 100%; max-width: 420px;
+            max-height: 92vh; overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from{ transform: translateY(100%); } to{ transform: translateY(0); } }
+        .modal-handle { width: 40px; height: 4px; background: #d1d5db; border-radius: 2px; margin: 12px auto 8px; }
+        .modal-header { padding: 12px 20px 16px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; }
+        .modal-title { font-size: 18px; font-weight: 800; color: var(--text-primary); }
+        .modal-close { width: 30px; height: 30px; background: var(--bg-secondary); border: none; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
+        .modal-body { padding: 20px; }
+        .auth-tabs { display: flex; background: var(--bg-secondary); border-radius: var(--radius); padding: 4px; margin-bottom: 20px; }
+        .auth-tab { flex: 1; padding: 10px; text-align: center; font-size: 14px; font-weight: 700; border-radius: 10px; cursor: pointer; transition: all var(--transition); color: var(--text-secondary); border: none; background: none; font-family: var(--font); }
+        .auth-tab.active { background: #fff; color: var(--primary); box-shadow: var(--shadow-sm); }
+        .auth-field { margin-bottom: 14px; }
+        .auth-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block; }
+        .auth-input { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: var(--font); outline: none; transition: all var(--transition); color: var(--text-primary); }
+        .auth-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15,110,86,0.1); }
+        .auth-divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
+        .auth-divider span { font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
+        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .social-btn { width: 100%; padding: 12px; border: 2px solid var(--border); background: #fff; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all var(--transition); margin-bottom: 8px; font-family: var(--font); color: var(--text-primary); }
+        .social-btn:hover { border-color: #cbd5e1; background: var(--bg-secondary); }
+        .auth-footer { font-size: 11px; color: var(--text-tertiary); text-align: center; margin-top: 12px; line-height: 1.6; }
+        .auth-footer a { color: var(--primary); font-weight: 600; cursor: pointer; }
+        /* Profil connecté */
+        .profile-card { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 14px; color: #fff; display: flex; align-items: center; gap: 14px; }
+        .profile-card-avatar { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 28px; border: 3px solid rgba(255,255,255,0.3); overflow: hidden; flex-shrink: 0; }
+        .profile-card-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-card-info h3 { font-size: 17px; font-weight: 800; margin-bottom: 3px; }
+        .profile-card-info p { font-size: 12px; opacity: 0.8; }
+        .profile-menu-item { background: #fff; border-radius: var(--radius); padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; cursor: pointer; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); transition: all var(--transition); }
+        .profile-menu-item:hover { border-color: var(--primary-light); background: #fafefe; }
+        .profile-menu-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 18px; flex-shrink: 0; }
+        .profile-menu-text { flex: 1; }
+        .profile-menu-title { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+        .profile-menu-desc { font-size: 11px; color: var(--text-tertiary); margin-top: 1px; }
+        .profile-menu-arrow { color: var(--text-tertiary); font-size: 16px; }
+        .orders-history { margin-top: 4px; }
+        .logout-btn { width: 100%; padding: 13px; background: #fee2e2; color: #dc2626; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; font-family: var(--font); transition: all var(--transition); }
+        .logout-btn:hover { background: #fecaca; }
+        .input-group { position: relative; }
+        .input-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-tertiary); font-size: 16px; padding: 4px; }
+        .avatar-upload { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+        .avatar-preview { width: 80px; height: 80px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 36px; margin-bottom: 8px; overflow: hidden; position: relative; cursor: pointer; border: 3px solid var(--primary); }
+        .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-edit-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); padding: 4px; text-align: center; font-size: 10px; color: #fff; font-weight: 600; }
+
+        /* ═══════ NAV ═══════ */
+        .bottom-nav {
+            display: flex; background: #fff;
+            border-top: 1px solid var(--border-light); flex-shrink: 0;
+            padding: 4px 8px; padding-bottom: max(4px, env(safe-area-inset-bottom));
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.07);
+        }
+        .nav-btn { flex: 1; padding: 8px 4px; text-align: center; cursor: pointer; border: none; background: none; font-size: 10px; color: var(--text-tertiary); transition: all var(--transition); border-radius: 12px; font-family: var(--font); position: relative; }
+        .nav-btn:hover { color: var(--text-secondary); }
+        .nav-btn.active { color: var(--primary); font-weight: 700; }
+        .nav-btn.active::before { content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%); width: 22px; height: 3px; background: var(--primary); border-radius: 0 0 3px 3px; }
+        .nav-btn i { display: block; font-size: 22px; margin-bottom: 2px; }
+
+        /* ═══════ TOAST ═══════ */
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1a1a2e; color: #fff; padding: 12px 20px; border-radius: 24px; font-size: 13px; font-weight: 600; z-index: 9998; opacity: 0; transition: all 0.3s ease; pointer-events: none; white-space: nowrap; box-shadow: var(--shadow-lg); }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { background: var(--primary); }
+        .toast.error { background: #dc2626; }
+
+        /* ═══════ MISC ═══════ */
+        .divider { height: 6px; background: var(--bg-secondary); }
+        .no-results { text-align: center; padding: 40px 20px; color: var(--text-tertiary); }
+        .no-results-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+        @media (max-width: 380px) { .pgrid { gap: 8px; padding: 0 10px; } .pimg { height: 90px; } }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════ SLIDE ACCUEIL ═══════════ -->
+<div id="slide">
+    <div class="slide-logo">🐟</div>
+    <h1 class="slide-title">Le Portail du Pêcheur</h1>
+    <p class="slide-sub">Poisson frais · Port de San Pedro · Côte d'Ivoire</p>
+    <div class="qr-card" onclick="openApp()">
+        <canvas id="qr-canvas" width="180" height="180"></canvas>
+        <div class="qr-label">📱 Scanner pour accéder</div>
+        <p style="font-size:11px;color:#999;">ou cliquer pour ouvrir</p>
+    </div>
+    <div class="badge-row">
+        <div class="badge"><i class="ti ti-shopping-cart"></i> Commande en ligne</div>
+        <div class="badge"><i class="ti ti-device-mobile"></i> Mobile Money</div>
+        <div class="badge"><i class="ti ti-map-pin"></i> Livraison San Pedro</div>
+        <div class="badge"><i class="ti ti-fish"></i> Poisson frais du jour</div>
+    </div>
+    <button class="demo-btn" onclick="openApp()">
+        <i class="ti ti-player-play"></i> Lancer la démonstration
+    </button>
+    <p class="author">
+        <strong>TCHEMO Ndjeanie Octavie Ndjamila</strong><br>
+        Master GIRM — UFR Sciences De la Mer<br>
+        Université de San Pedro — Juin 2026
+    </p>
+</div>
+
+<!-- ═══════════ APP VIEW ═══════════ -->
+<div id="app-view">
+    <button class="back-btn" onclick="closeApp()">
+        <i class="ti ti-arrow-left" style="font-size:14px;"></i> Retour
+    </button>
+
+    <div class="app-frame">
+        <!-- App Bar -->
+        <div class="app-bar">
+            <div class="logo-icon">🐟</div>
+            <span class="logo-text">Le Portail du Pêcheur</span>
+            <div class="app-bar-actions">
+                <button class="icon-btn" onclick="goScreen('profil')" title="Mon profil" id="btn-profil-icon">
+                    <i class="ti ti-user" style="font-size:18px;" id="profil-icon"></i>
+                </button>
+                <button class="icon-btn" onclick="goScreen('cart')" title="Panier">
+                    <i class="ti ti-shopping-cart" style="font-size:18px;"></i>
+                    <span class="cart-badge" id="cart-badge" style="display:none;">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Écran Accueil -->
+        <div class="screen" id="screen-home">
+            <div class="hero">
+                <div class="hero-top">
+                    <div>
+                        <p class="hero-greeting">👋 Bonjour <span id="hero-user-name">cher client</span> !</p>
+                        <div class="hero-location"><i class="ti ti-map-pin" style="font-size:11px;"></i> San Pedro, Côte d'Ivoire</div>
+                    </div>
+                    <div class="hero-avatar" onclick="goScreen('profil')" id="hero-avatar-btn">
+                        <span id="hero-avatar-emoji">👤</span>
+                    </div>
+                </div>
+                <p style="margin-top:10px;">Directement du port de pêche · Livraison en moins d'1h</p>
+                <div class="search-bar">
+                    <i class="ti ti-search" style="font-size:16px;color:rgba(255,255,255,0.8);"></i>
+                    <input type="text" placeholder="Chercher un poisson..." id="searchInput" oninput="filterProducts()">
+                </div>
+            </div>
+
+            <!-- Promo banner -->
+            <div class="promo-banner">
+                <div class="promo-icon">🎣</div>
+                <div class="promo-text">
+                    <h4>Pêche abondante aujourd'hui !</h4>
+                    <p>Stock exceptionnel au port de San Pedro</p>
+                </div>
+                <div class="promo-badge">-10%</div>
+            </div>
+
+            <!-- Catégories -->
+            <div class="categories-row" id="cat-row">
+                <div class="cat-chip active" onclick="filterCat('all',this)">🐟 Tous</div>
+                <div class="cat-chip" onclick="filterCat('mer',this)">🌊 Poissons de mer</div>
+                <div class="cat-chip" onclick="filterCat('eau-douce',this)">💧 Eau douce</div>
+                <div class="cat-chip" onclick="filterCat('petit',this)">🐠 Petits poissons</div>
+            </div>
+
+            <div class="section-header">
+                <span class="section-title">🎣 Disponible aujourd'hui</span>
+                <span class="section-badge" id="product-count">6 produits</span>
+            </div>
+            <div class="pgrid" id="pgrid"></div>
+
+            <div class="divider" style="margin-top:16px;"></div>
+            <div class="section-header">
+                <span class="section-title">🤝 Coopératives partenaires</span>
+                <span class="section-link">Voir tout</span>
+            </div>
+            <div class="coops-row">
+                <div class="coop-chip"><div class="coop-dot"></div>SCOOPS-PEMA</div>
+                <div class="coop-chip"><div class="coop-dot"></div>SCOP-BMPP-SP</div>
+                <div class="coop-chip"><div class="coop-dot"></div>SCOOP-FMGD</div>
+                <div class="coop-chip"><div class="coop-dot"></div>SCOOP-CA-Espoir</div>
+                <div class="coop-chip"><div class="coop-dot"></div>SCOOP-FVBS</div>
+            </div>
+        </div>
+
+        <!-- Écran Détail -->
+        <div class="screen" id="screen-detail" style="display:none;">
+            <div class="brow" onclick="goScreen('home')">
+                <i class="ti ti-arrow-left" style="font-size:16px;"></i> Retour aux produits
+            </div>
+            <div id="dcontent"></div>
+        </div>
+
+        <!-- Écran Panier -->
+        <div class="screen" id="screen-cart" style="display:none;">
+            <div class="brow" onclick="goScreen('home')">
+                <i class="ti ti-arrow-left" style="font-size:16px;"></i> Continuer mes achats
+            </div>
+            <div id="ccontent"></div>
+        </div>
+
+        <!-- Écran Confirmation -->
+        <div class="screen" id="screen-confirm" style="display:none;">
+            <div class="confirm-screen">
+                <div class="confirm-icon">✅</div>
+                <p class="confirm-title">Commande confirmée !</p>
+                <p class="confirm-subtitle">Votre paiement a été reçu avec succès.<br>Votre poisson frais est en cours de préparation.</p>
+                <div class="confirm-amount">
+                    <div class="confirm-amount-label">Montant payé</div>
+                    <div class="confirm-amount-value" id="confirm-total">0 FCFA</div>
+                </div>
+                <div class="tracking-steps">
+                    <div class="tracking-step">
+                        <div class="step-dot done"><i class="ti ti-check"></i></div>
+                        <div class="step-content">
+                            <div class="step-title">Commande validée</div>
+                            <div class="step-desc">Paiement mobile money reçu et confirmé</div>
+                        </div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="step-dot done"><i class="ti ti-check"></i></div>
+                        <div class="step-content">
+                            <div class="step-title">Préparation en cours</div>
+                            <div class="step-desc">Port de pêche San Pedro — Coopérative partenaire</div>
+                        </div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="step-dot pending">3</div>
+                        <div class="step-content">
+                            <div class="step-title">En cours de livraison</div>
+                            <div class="step-desc">Livreur assigné — Arrivée estimée : 30-45 min</div>
+                        </div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="step-dot pending">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Livré à votre adresse</div>
+                            <div class="step-desc">Vous recevrez une notification de confirmation</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="resetApp()"><i class="ti ti-shopping-cart"></i> Nouvelle commande</button>
+                <button class="btn-secondary" onclick="goScreen('home')">Retour à l'accueil</button>
+            </div>
+        </div>
+
+        <!-- Écran Vendeur -->
+        <div class="screen" id="screen-vendeur" style="display:none;">
+            <div class="vendor-screen">
+                <div class="vendor-header">
+                    <div class="vendor-avatar">🏪</div>
+                    <div class="vendor-info">
+                        <div class="vendor-name">Espace Vendeur</div>
+                        <div class="vendor-id">Coopérative : SCOOP-CA-Espoir — San Pedro</div>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">📦 Commandes aujourd'hui</div>
+                        <div class="stat-value blue" id="v-orders">7</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">💰 Recettes (FCFA)</div>
+                        <div class="stat-value green" id="v-revenue">47 500</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">🐟 Stock restant (kg)</div>
+                        <div class="stat-value" id="v-stock">32</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">⭐ Note vendeur</div>
+                        <div class="stat-value gold">4.8</div>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="toggleAddProductForm()" style="margin-bottom:8px;">
+                    <i class="ti ti-plus"></i> Ajouter un produit
+                </button>
+                <div class="add-product-form" id="add-product-form">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label class="form-label">Nom du poisson</label>
+                            <input class="form-input" id="new-fish-name" placeholder="Ex: Barracuda">
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label">Prix (FCFA/kg)</label>
+                            <input class="form-input" id="new-fish-price" type="number" placeholder="3000">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label class="form-label">Stock (kg)</label>
+                            <input class="form-input" id="new-fish-stock" type="number" placeholder="20">
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label">Coopérative</label>
+                            <input class="form-input" id="new-fish-coop" placeholder="SCOOPS-PEMA">
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="addNewProduct()" style="margin-top:4px;"><i class="ti ti-check"></i> Publier le produit</button>
+                    <button class="btn-secondary" onclick="toggleAddProductForm()">Annuler</button>
+                </div>
+                <button class="btn-secondary" onclick="showPendingOrders()">
+                    <i class="ti ti-clipboard-list"></i> Commandes en attente
+                </button>
+                <div id="pending-orders" style="display:none; margin-top:12px;">
+                    <div class="vendor-section-title">📋 Commandes en attente</div>
+                    <div class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-id">#CMD-2026-041</span>
+                            <span class="order-status en-cours">En cours</span>
+                        </div>
+                        <div class="order-desc">Mérou × 2 kg + Dorade × 1 kg — 11 200 FCFA</div>
+                    </div>
+                    <div class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-id">#CMD-2026-040</span>
+                            <span class="order-status en-cours">En cours</span>
+                        </div>
+                        <div class="order-desc">Thon frais × 3 kg — 14 400 FCFA</div>
+                    </div>
+                    <div class="order-item" style="border-left-color: #22c55e;">
+                        <div class="order-item-header">
+                            <span class="order-id">#CMD-2026-039</span>
+                            <span class="order-status livre">Livré</span>
+                        </div>
+                        <div class="order-desc">Sardine × 5 kg — 7 500 FCFA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Écran Profil -->
+        <div class="screen" id="screen-profil" style="display:none;">
+            <div class="profile-screen" id="profile-content"></div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-btn active" id="nav-home" onclick="goScreen('home')">
+                <i class="ti ti-home"></i>Accueil
+            </button>
+            <button class="nav-btn" id="nav-cart" onclick="goScreen('cart')">
+                <i class="ti ti-shopping-cart"></i>Panier
+            </button>
+            <button class="nav-btn" id="nav-vendeur" onclick="goScreen('vendeur')">
+                <i class="ti ti-building-store"></i>Vendeur
+            </button>
+            <button class="nav-btn" id="nav-profil" onclick="goScreen('profil')">
+                <i class="ti ti-user"></i>Profil
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Auth -->
+<div class="modal-overlay" id="auth-modal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+            <span class="modal-title" id="modal-title">Mon Compte</span>
+            <button class="modal-close" onclick="closeModal('auth-modal')"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="auth-tabs" id="auth-tabs">
+                <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Connexion</button>
+                <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Créer un compte</button>
+            </div>
+            <!-- Formulaire Connexion -->
+            <div id="form-login">
+                <div class="auth-field">
+                    <label class="auth-label">Téléphone ou Email</label>
+                    <input class="auth-input" id="login-email" type="text" placeholder="07 00 00 00 00 ou email@...">
+                </div>
+                <div class="auth-field">
+                    <label class="auth-label">Mot de passe</label>
+                    <div class="input-group">
+                        <input class="auth-input" id="login-password" type="password" placeholder="Votre mot de passe" style="padding-right:40px;">
+                        <button class="input-toggle" onclick="togglePwd('login-password',this)"><i class="ti ti-eye"></i></button>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="doLogin()" style="margin-top:4px;"><i class="ti ti-login"></i> Se connecter</button>
+                <div class="auth-divider"><span>ou</span></div>
+                <button class="social-btn" onclick="socialLogin('google')">
+                    <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+                    Continuer avec Google
+                </button>
+                <button class="social-btn" onclick="socialLogin('facebook')">
+                    <i class="ti ti-brand-facebook" style="font-size:18px;color:#1877F2;"></i>
+                    Continuer avec Facebook
+                </button>
+                <p class="auth-footer">Mot de passe oublié ? <a onclick="showForgot()">Réinitialiser</a></p>
+            </div>
+            <!-- Formulaire Inscription -->
+            <div id="form-register" style="display:none;">
+                <div class="avatar-upload" id="avatar-upload-area">
+                    <div class="avatar-preview" onclick="triggerAvatarUpload()" id="register-avatar-preview">
+                        <span id="register-avatar-emoji">👤</span>
+                        <div class="avatar-edit-overlay">Modifier</div>
+                    </div>
+                    <input type="file" id="avatar-file-input" accept="image/*" style="display:none;" onchange="handleAvatarUpload(this)">
+                    <p style="font-size:11px;color:var(--text-tertiary);">Photo de profil (optionnel)</p>
+                </div>
+                <div class="form-row">
+                    <div class="auth-field">
+                        <label class="auth-label">Prénom</label>
+                        <input class="auth-input" id="reg-firstname" type="text" placeholder="Konan">
+                    </div>
+                    <div class="auth-field">
+                        <label class="auth-label">Nom</label>
+                        <input class="auth-input" id="reg-lastname" type="text" placeholder="Koffi">
+                    </div>
+                </div>
+                <div class="auth-field">
+                    <label class="auth-label">Numéro de téléphone</label>
+                    <input class="auth-input" id="reg-phone" type="tel" placeholder="07 00 00 00 00">
+                </div>
+                <div class="auth-field">
+                    <label class="auth-label">Email (optionnel)</label>
+                    <input class="auth-input" id="reg-email" type="email" placeholder="email@exemple.com">
+                </div>
+                <div class="auth-field">
+                    <label class="auth-label">Quartier / Adresse de livraison</label>
+                    <input class="auth-input" id="reg-address" type="text" placeholder="Ex: Quartier Bardot, San Pedro">
+                </div>
+                <div class="auth-field">
+                    <label class="auth-label">Mot de passe</label>
+                    <div class="input-group">
+                        <input class="auth-input" id="reg-password" type="password" placeholder="Minimum 6 caractères" style="padding-right:40px;">
+                        <button class="input-toggle" onclick="togglePwd('reg-password',this)"><i class="ti ti-eye"></i></button>
+                    </div>
+                </div>
+                <div class="auth-field">
+                    <label class="auth-label">Confirmer le mot de passe</label>
+                    <div class="input-group">
+                        <input class="auth-input" id="reg-password2" type="password" placeholder="Répéter le mot de passe" style="padding-right:40px;">
+                        <button class="input-toggle" onclick="togglePwd('reg-password2',this)"><i class="ti ti-eye"></i></button>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="doRegister()" style="margin-top:4px;"><i class="ti ti-user-plus"></i> Créer mon compte</button>
+                <p class="auth-footer">En créant un compte, vous acceptez nos <a>Conditions d'utilisation</a> et notre <a>Politique de confidentialité</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script>
+(function () {
+
+// ═══════════ VRAIES IMAGES DES POISSONS ═══════════
+const fishImages = {
+    merou:       'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Epinephelus_marginatus_-_Naples_aquarium.jpg/640px-Epinephelus_marginatus_-_Naples_aquarium.jpg',
+    carpe_rouge: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Cyprinus_carpio2.jpg/640px-Cyprinus_carpio2.jpg',
+    dorade:      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sparus_aurata_ies.jpg/640px-Sparus_aurata_ies.jpg',
+    sardine:     'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Sardina_pilchardus.jpg/640px-Sardina_pilchardus.jpg',
+    carpe_grise: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Cyprinus_carpio_Common_carp.jpg/640px-Cyprinus_carpio_Common_carp.jpg',
+    thon:        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Atlantic_bluefin_tuna.jpg/640px-Atlantic_bluefin_tuna.jpg'
+};
+
+// Fallback Unsplash si Wikipedia échoue
+const fishImagesFallback = {
+    merou:       'https://images.unsplash.com/photo-1534943441045-1009c8b3b0b3?w=400&h=300&fit=crop&q=80',
+    carpe_rouge: 'https://images.unsplash.com/photo-1544556868-5b5c82f5b7e6?w=400&h=300&fit=crop&q=80',
+    dorade:      'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=400&h=300&fit=crop&q=80',
+    sardine:     'https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=400&h=300&fit=crop&q=80',
+    carpe_grise: 'https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=400&h=300&fit=crop&q=80',
+    thon:        'https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?w=400&h=300&fit=crop&q=80'
+};
+
+const fishSVG = {
+    merou:       '<svg width="80" height="55" viewBox="0 0 80 55"><ellipse cx="40" cy="28" rx="26" ry="15" fill="#8B6347"/><ellipse cx="38" cy="27" rx="22" ry="11" fill="#A0755A"/><circle cx="18" cy="24" r="2.5" fill="#E8E0B0"/><circle cx="18.5" cy="24" r="1" fill="#1A1000"/><path d="M20 24 Q15 16 10 20 Q8 26 10 32 Q15 36 20 30Z" fill="#7A5540"/><path d="M64 28 Q74 16 77 28 Q74 40 64 28Z" fill="#7A5540"/></svg>',
+    carpe_rouge: '<svg width="80" height="55" viewBox="0 0 80 55"><ellipse cx="40" cy="28" rx="26" ry="15" fill="#C42020"/><ellipse cx="38" cy="27" rx="22" ry="11" fill="#D83535"/><circle cx="18" cy="23" r="2.5" fill="#F0E8C0"/><path d="M20 24 Q15 16 10 20 Q8 26 10 32 Q15 36 20 30Z" fill="#B01818"/><path d="M64 28 Q74 16 77 28 Q74 40 64 28Z" fill="#A01010"/></svg>',
+    dorade:      '<svg width="80" height="55" viewBox="0 0 80 55"><ellipse cx="40" cy="28" rx="26" ry="15" fill="#8899AA"/><ellipse cx="38" cy="27" rx="22" ry="11" fill="#99AABB"/><circle cx="18" cy="24" r="2.5" fill="#EEE8D0"/><path d="M20 24 Q15 16 10 20 Q8 26 10 32 Q15 36 20 30Z" fill="#667788"/><path d="M64 28 Q74 16 77 28 Q74 40 64 28Z" fill="#556677"/><line x1="38" y1="13" x2="38" y2="17" stroke="#FFD700" stroke-width="2.5"/></svg>',
+    sardine:     '<svg width="80" height="55" viewBox="0 0 80 55"><ellipse cx="40" cy="28" rx="30" ry="8" fill="#4A6080"/><ellipse cx="38" cy="27" rx="26" ry="6" fill="#5A7090"/><circle cx="16" cy="26" r="2" fill="#E8E8D8"/><path d="M18 27 Q13 21 9 24 Q7 28 9 32 Q13 35 18 31Z" fill="#3A5070"/><path d="M68 28 Q78 21 81 28 Q78 35 68 28Z" fill="#3A5070"/></svg>',
+    carpe_grise: '<svg width="80" height="55" viewBox="0 0 80 55"><ellipse cx="40" cy="28" rx="26" ry="15" fill="#6E6E5A"/><ellipse cx="38" cy="27" rx="22" ry="11" fill="#808070"/><circle cx="18" cy="24" r="2.5" fill="#D8D8C0"/><path d="M20 24 Q15 16 10 20 Q8 26 10 32 Q15 36 20 30Z" fill="#4A4A38"/><path d="M64 28 Q74 16 77 28 Q74 40 64 28Z" fill="#484838"/></svg>',
+    thon:        '<svg width="80" height="55" viewBox="0 0 80 55"><ellipse cx="40" cy="28" rx="28" ry="11" fill="#1E3A5A"/><ellipse cx="38" cy="27" rx="24" ry="8" fill="#2A4A6A"/><circle cx="16" cy="26" r="2.5" fill="#E0E0E8"/><path d="M18 27 Q13 19 9 23 Q7 27 9 31 Q13 36 18 30Z" fill="#162A40"/><path d="M68 28 Q78 19 81 28 Q78 37 68 28Z" fill="#162A40"/></svg>'
+};
+
+const products = [
+    { id:1, name:'Mérou',           sub:'SCOOPS-PEMA',      price:3500, key:'merou',       date:"Aujourd'hui", coop:'SCOOPS-PEMA',      stock:15, cat:'mer',        desc:"Le mérou est un poisson de mer très prisé pour sa chair ferme et savoureuse. Pêché directement au large de San Pedro." },
+    { id:2, name:'Carpe rouge',     sub:'SCOP-BMPP-SP',     price:2800, key:'carpe_rouge', date:"Aujourd'hui", coop:'SCOP-BMPP-SP',     stock:22, cat:'eau-douce',  desc:"La carpe rouge est un poisson à la chair délicate, idéale en sauce ou grillée. Très populaire dans la cuisine ivoirienne." },
+    { id:3, name:'Dorade royale',   sub:'SCOOP-FMGD',       price:4200, key:'dorade',      date:"Aujourd'hui", coop:'SCOOP-FMGD',       stock:8,  cat:'mer',        desc:"La dorade royale est le roi des poissons de mer. Chair blanche et fine, parfaite pour les grandes occasions." },
+    { id:4, name:'Sardine fraîche', sub:'SCOOP-CA-Espoir',  price:1500, key:'sardine',     date:"Aujourd'hui", coop:'SCOOP-CA-Espoir',  stock:50, cat:'petit',      desc:"Les sardines fraîches du port de San Pedro, idéales grillées ou en sauce. Riches en oméga-3 et très abordables." },
+    { id:5, name:'Carpe grise',     sub:'SCOOP-FVBS',       price:2200, key:'carpe_grise', date:"Aujourd'hui", coop:'SCOOP-FVBS',       stock:18, cat:'eau-douce',  desc:"La carpe grise est un classique des cuisines ivoiriennes. Sa chair épaisse en fait un poisson rassasiant au goût authentique." },
+    { id:6, name:'Thon frais',      sub:'SCOOPS-PEMA',      price:4800, key:'thon',        date:"Aujourd'hui", coop:'SCOOPS-PEMA',      stock:5,  cat:'mer',        desc:"Le thon frais de l'Atlantique, pêché le matin même. Un délice à consommer le jour de l'achat. Stock limité !" }
+];
+
+let cart = {};
+let payMethod = 'orange';
+let lastConfirmedTotal = 0;
+let currentUser = null;
+let currentAvatarData = null;
+let newProductCount = 0;
+let activeCategory = 'all';
+
+// ═══════ USERS (stockage local simulé) ═══════
+function getUsers() {
+    try { return JSON.parse(localStorage.getItem('ppUsers') || '[]'); } catch(e){ return []; }
+}
+function saveUsers(u) {
+    try { localStorage.setItem('ppUsers', JSON.stringify(u)); } catch(e){}
+}
+function getCurrentUser() {
+    try { return JSON.parse(localStorage.getItem('ppCurrentUser') || 'null'); } catch(e){ return null; }
+}
+function saveCurrentUser(u) {
+    try { localStorage.setItem('ppCurrentUser', JSON.stringify(u)); } catch(e){}
+    currentUser = u;
+    updateUIForUser();
+}
+function clearCurrentUser() {
+    try { localStorage.removeItem('ppCurrentUser'); } catch(e){}
+    currentUser = null;
+    updateUIForUser();
+}
+
+function updateUIForUser() {
+    const heroName = document.getElementById('hero-user-name');
+    const heroAvatar = document.getElementById('hero-avatar-emoji');
+    if (heroName) heroName.textContent = currentUser ? currentUser.firstname : 'cher client';
+    if (heroAvatar) {
+        if (currentUser && currentUser.avatar) {
+            heroAvatar.parentElement.innerHTML = `<img src="${currentUser.avatar}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        } else {
+            heroAvatar.textContent = currentUser ? '👤' : '👤';
+        }
+    }
+}
+
+// ═══════ IMAGE HANDLING ═══════
+function getFishImg(key) {
+    return fishImages[key] || '';
+}
+function getFishFallbackImg(key) {
+    return fishImagesFallback[key] || '';
+}
+function getFishSVG(key, w=80, h=55) {
+    return (fishSVG[key]||'').replace('width="80"','width="'+w+'"').replace('height="55"','height="'+h+'"');
+}
+function fishImgHTML(key, alt, extraStyle='') {
+    const src = getFishImg(key);
+    const fallback = getFishFallbackImg(key);
+    const svg = getFishSVG(key);
+    if (!src) return `<div class="pimg-fallback" style="display:flex;">${svg}</div>`;
+    return `<img src="${src}" alt="${alt}" style="${extraStyle}" loading="lazy"
+        onerror="this.src='${fallback}'; this.onerror=function(){ this.style.display='none'; this.nextElementSibling.style.display='flex'; };">
+        <div class="pimg-fallback" style="display:none;">${svg}</div>`;
+}
+
+// ═══════ PRODUCTS ═══════
+function renderProductCard(p) {
+    const inCart = cart[p.id] || 0;
+    const isLowStock = p.stock <= 5;
+    return `
+    <div class="pcard" onclick="showDetail(${p.id})">
+        <div class="pimg">
+            ${fishImgHTML(p.key, p.name)}
+            <span class="fresh-badge">FRAIS</span>
+            ${isLowStock ? '<span class="discount-badge">⚡ Limité</span>' : ''}
+        </div>
+        <div class="pbody">
+            <p class="pname">${p.name}</p>
+            <p class="psub">${p.coop}</p>
+            <div class="pfooter">
+                <span class="pprice">${p.price.toLocaleString()} <span class="pprice-unit">F/kg</span></span>
+                <button class="add-btn" onclick="event.stopPropagation();quickAdd(${p.id})" title="Ajouter">+</button>
+            </div>
+            ${inCart > 0 ? `<div class="in-cart-indicator"><i class="ti ti-check" style="font-size:10px;"></i> ${inCart} kg dans le panier</div>` : ''}
+        </div>
+    </div>`;
+}
+
+function renderProducts(filter) {
+    filter = filter || '';
+    let filtered = filter
+        ? products.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()) || p.coop.toLowerCase().includes(filter.toLowerCase()))
+        : products;
+    if (activeCategory !== 'all') {
+        filtered = filtered.filter(p => p.cat === activeCategory);
+    }
+    const grid = document.getElementById('pgrid');
+    if (!grid) return;
+    if (!filtered.length) {
+        grid.innerHTML = `<div class="no-results" style="grid-column:1/-1;">
+            <div class="no-results-icon">🔍</div>
+            <p style="font-weight:600;color:#333;">Aucun résultat</p>
+            <p style="font-size:12px;margin-top:4px;">Essayez un autre mot-clé</p>
+        </div>`;
+    } else {
+        grid.innerHTML = filtered.map(p => renderProductCard(p)).join('');
+    }
+    const countEl = document.getElementById('product-count');
+    if (countEl) countEl.textContent = filtered.length + ' produit' + (filtered.length > 1 ? 's' : '');
+}
+
+function filterProducts() {
+    renderProducts(document.getElementById('searchInput')?.value || '');
+}
+
+function filterCat(cat, el) {
+    activeCategory = cat;
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    renderProducts(document.getElementById('searchInput')?.value || '');
+}
+
+function showDetail(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    const q = cart[id] || 1;
+    const imgSrc = getFishImg(p.key);
+    const imgFallback = getFishFallbackImg(p.key);
+    const svg = getFishSVG(p.key, 140, 95);
+    const stockColor = p.stock <= 5 ? '#dc2626' : p.stock <= 10 ? '#d97706' : '#0F6E56';
+    document.getElementById('dcontent').innerHTML = `
+    <div class="dimg">
+        ${imgSrc ? `<img src="${imgSrc}" alt="${p.name}"
+            onerror="this.src='${imgFallback}'; this.onerror=function(){ this.style.display='none'; this.nextElementSibling.style.display='flex'; };">
+            <div class="dimg-fallback" style="display:none;">${svg}</div>` : `<div class="dimg-fallback" style="display:flex;">${svg}</div>`}
+        <div class="dimg-overlay">
+            <div class="dimg-badge"><i class="ti ti-star" style="font-size:11px;color:#F59E0B;"></i> 4.8</div>
+            <div class="dimg-badge"><i class="ti ti-fish" style="font-size:11px;"></i> Frais du jour</div>
+        </div>
+    </div>
+    <div class="dbody">
+        <p class="dname">${p.name}</p>
+        <p class="dvendor"><i class="ti ti-map-pin" style="font-size:13px;"></i> ${p.coop} — Port de pêche San Pedro</p>
+        <p class="dprice">${p.price.toLocaleString()} <span>FCFA / kg</span></p>
+        <div class="badge-row-detail">
+            <span class="bdg bdg-fresh"><i class="ti ti-check" style="font-size:11px;"></i> Poisson frais</span>
+            <span class="bdg bdg-date"><i class="ti ti-calendar" style="font-size:11px;"></i> ${p.date}</span>
+            <span class="bdg bdg-date" style="color:${stockColor};"><i class="ti ti-package" style="font-size:11px;"></i> Stock : ${p.stock} kg</span>
+        </div>
+        <p style="font-size:13px;color:#666;line-height:1.6;margin-bottom:12px;">${p.desc}</p>
+        <p style="font-size:13px;color:#666;margin-bottom:6px;font-weight:600;">Quantité souhaitée (kg)</p>
+        <div class="qrow">
+            <button class="qbtn" onclick="changeDetailQty(${id},-1)">−</button>
+            <span class="qval" id="detail-qty">${q}</span>
+            <button class="qbtn" onclick="changeDetailQty(${id},1)">+</button>
+            <span class="qtotal">Total : <strong id="detail-total">${(q*p.price).toLocaleString()} FCFA</strong></span>
+        </div>
+        <button class="btn-primary" onclick="addToCartFromDetail(${id})">
+            <i class="ti ti-shopping-cart"></i> Ajouter au panier — <span id="detail-btn-total">${(q*p.price).toLocaleString()} FCFA</span>
+        </button>
+        <button class="btn-secondary" onclick="goScreen('home')">
+            <i class="ti ti-arrow-left"></i> Continuer mes achats
+        </button>
+    </div>`;
+    goScreen('detail');
+}
+
+function changeDetailQty(id, delta) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    const el = document.getElementById('detail-qty');
+    const cur = parseInt(el.textContent) || 1;
+    const nv = Math.max(1, Math.min(cur + delta, p.stock));
+    el.textContent = nv;
+    const t = nv * p.price;
+    document.getElementById('detail-total').textContent = t.toLocaleString() + ' FCFA';
+    document.getElementById('detail-btn-total').textContent = t.toLocaleString() + ' FCFA';
+}
+
+function quickAdd(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    const cur = cart[id] || 0;
+    if (cur >= p.stock) { showToast('Stock insuffisant ! Maximum : ' + p.stock + ' kg', 'error'); return; }
+    cart[id] = cur + 1;
+    updateCartBadge();
+    renderProducts(document.getElementById('searchInput')?.value || '');
+    showToast('✓ ' + p.name + ' ajouté au panier (1 kg)', 'success');
+}
+
+function addToCartFromDetail(id) {
+    const q = parseInt(document.getElementById('detail-qty').textContent) || 1;
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    if (q > p.stock) { showToast('Stock insuffisant ! Maximum : ' + p.stock + ' kg', 'error'); return; }
+    cart[id] = q;
+    updateCartBadge();
+    renderProducts(document.getElementById('searchInput')?.value || '');
+    showToast('✓ ' + p.name + ' — ' + q + ' kg ajouté', 'success');
+    goScreen('cart');
+}
+
+function removeFromCart(id) {
+    const p = products.find(x => x.id === id);
+    delete cart[id];
+    updateCartBadge();
+    renderProducts(document.getElementById('searchInput')?.value || '');
+    renderCart();
+    if (p) showToast('🗑 ' + p.name + ' retiré du panier', 'error');
+}
+
+function renderCart() {
+    const keys = Object.keys(cart).filter(k => cart[k] > 0);
+    const el = document.getElementById('ccontent');
+    if (!el) return;
+    if (!keys.length) {
+        el.innerHTML = `<div class="empty-cart">
+            <div class="empty-cart-icon">🛒</div>
+            <p style="font-weight:700;color:#333;font-size:16px;">Votre panier est vide</p>
+            <p style="font-size:12px;color:#999;margin-top:6px;">Ajoutez du poisson frais à votre commande</p>
+            <button class="btn-primary" style="margin-top:20px;width:auto;padding:12px 24px;" onclick="goScreen('home')">
+                <i class="ti ti-fish"></i> Voir les produits
+            </button>
+        </div>`;
+        return;
+    }
+    let sub = 0;
+    const itemsHTML = keys.map(k => {
+        const p = products.find(x => x.id == k);
+        if (!p) return '';
+        const lineTotal = p.price * cart[k];
+        sub += lineTotal;
+        const imgSrc = getFishImg(p.key);
+        const imgFb = getFishFallbackImg(p.key);
+        const svg = getFishSVG(p.key, 50, 35);
+        return `<div class="cart-item">
+            <div class="cart-item-img">
+                ${imgSrc ? `<img src="${imgSrc}" alt="${p.name}" onerror="this.src='${imgFb}'; this.onerror=function(){ this.style.display='none'; this.nextElementSibling.style.display='flex'; };">
+                <div class="cart-item-img-fallback" style="display:none;">${svg}</div>` : `<div class="cart-item-img-fallback" style="display:flex;">${svg}</div>`}
+            </div>
+            <div class="cart-item-info">
+                <div class="cart-item-name">${p.name}</div>
+                <div class="cart-item-qty">${cart[k]} kg × ${p.price.toLocaleString()} FCFA</div>
+            </div>
+            <div class="cart-item-price">${lineTotal.toLocaleString()} F</div>
+            <button class="cart-item-remove" onclick="removeFromCart(${k})" title="Retirer">
+                <i class="ti ti-trash"></i>
+            </button>
+        </div>`;
+    }).join('');
+    const delivery = 750;
+    const commission = Math.round(sub * 0.07);
+    const total = sub + delivery + commission;
+    lastConfirmedTotal = total;
+    el.innerHTML = itemsHTML + `
+    <div class="cart-summary">
+        <div class="summary-row"><span>Sous-total</span><span>${sub.toLocaleString()} FCFA</span></div>
+        <div class="summary-row"><span>Livraison (San Pedro)</span><span>${delivery.toLocaleString()} FCFA</span></div>
+        <div class="summary-row"><span>Commission (7%)</span><span>${commission.toLocaleString()} FCFA</span></div>
+        <div class="summary-row total"><span>Total</span><span>${total.toLocaleString()} FCFA</span></div>
+    </div>
+    <div class="payment-section">
+        <p class="payment-title"><i class="ti ti-credit-card" style="font-size:16px;color:var(--primary);"></i> Mode de paiement</p>
+        ${[
+            {id:'orange',name:'Orange Money',color:'orange',icon:'OM'},
+            {id:'mtn',name:'MTN Mobile Money',color:'mtn',icon:'MTN'},
+            {id:'wave',name:'Wave',color:'wave',icon:'W'}
+        ].map(m => `
+        <div class="payment-option${payMethod===m.id?' selected':''}" onclick="selectPayment('${m.id}')">
+            <div class="payment-icon ${m.color}">${m.icon}</div>
+            <span class="payment-name">${m.name}</span>
+            ${payMethod===m.id ? '<i class="ti ti-circle-check payment-check"></i>' : ''}
+        </div>`).join('')}
+        <button class="btn-primary" onclick="confirmOrder()" style="margin-top:14px;">
+            <i class="ti ti-check"></i> Confirmer et payer ${total.toLocaleString()} FCFA
+        </button>
+    </div>`;
+}
+
+function selectPayment(method) { payMethod = method; renderCart(); }
+
+function confirmOrder() {
+    const keys = Object.keys(cart).filter(k => cart[k] > 0);
+    if (!keys.length) { showToast('Votre panier est vide !', 'error'); return; }
+    if (!currentUser) {
+        showToast('Connectez-vous pour commander', 'error');
+        setTimeout(() => { openAuthModal(); }, 800);
+        return;
+    }
+    document.getElementById('confirm-total').textContent = lastConfirmedTotal.toLocaleString() + ' FCFA';
+    // Update vendor stats
+    const vOrders = document.getElementById('v-orders');
+    const vRevenue = document.getElementById('v-revenue');
+    if (vOrders) vOrders.textContent = parseInt(vOrders.textContent||0) + 1;
+    if (vRevenue) {
+        const cur = parseInt((vRevenue.textContent||'0').replace(/\s/g,''));
+        vRevenue.textContent = (cur + lastConfirmedTotal).toLocaleString();
+    }
+    cart = {};
+    updateCartBadge();
+    renderProducts();
+    goScreen('confirm');
+    showToast('✅ Commande confirmée avec succès !', 'success');
+}
+
+function resetApp() {
+    cart = {};
+    updateCartBadge();
+    renderProducts();
+    goScreen('home');
+    const si = document.getElementById('searchInput');
+    if (si) si.value = '';
+}
+
+function updateCartBadge() {
+    const total = Object.values(cart).reduce((s,v) => s+v, 0);
+    const badge = document.getElementById('cart-badge');
+    if (badge) { badge.style.display = total > 0 ? 'flex' : 'none'; badge.textContent = total; }
+}
+
+// ═══════ SCREENS ═══════
+function goScreen(name) {
+    const screens = ['home','detail','cart','confirm','vendeur','profil'];
+    screens.forEach(s => {
+        const el = document.getElementById('screen-' + s);
+        if (el) el.style.display = s === name ? '' : 'none';
+    });
+    ['home','cart','vendeur','profil'].forEach(n => {
+        const btn = document.getElementById('nav-' + n);
+        if (btn) btn.classList.toggle('active', n === name);
+    });
+    if (name === 'cart') renderCart();
+    if (name === 'home') renderProducts(document.getElementById('searchInput')?.value || '');
+    if (name === 'profil') renderProfile();
+    const el = document.getElementById('screen-' + name);
+    if (el) el.scrollTop = 0;
+}
+
+// ═══════ PROFILE ═══════
+function renderProfile() {
+    const el = document.getElementById('profile-content');
+    if (!el) return;
+    if (!currentUser) {
+        el.innerHTML = `
+        <div style="text-align:center;padding:40px 20px;">
+            <div style="font-size:60px;margin-bottom:16px;">👤</div>
+            <h3 style="font-size:18px;font-weight:800;color:var(--text-primary);margin-bottom:8px;">Mon Compte</h3>
+            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:24px;line-height:1.6;">Connectez-vous pour accéder à vos commandes, votre profil et profiter de toutes les fonctionnalités.</p>
+            <button class="btn-primary" onclick="openAuthModal('login')">
+                <i class="ti ti-login"></i> Se connecter
+            </button>
+            <button class="btn-secondary" onclick="openAuthModal('register')">
+                <i class="ti ti-user-plus"></i> Créer un compte
+            </button>
+        </div>
+        <div style="padding:0 16px;">
+            <div style="background:#fff;border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;box-shadow:var(--shadow-sm);">
+                <p style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">🔒 Pourquoi créer un compte ?</p>
+                <ul style="font-size:12px;color:var(--text-secondary);line-height:1.8;padding-left:16px;">
+                    <li>Suivre vos commandes en temps réel</li>
+                    <li>Sauvegarder votre adresse de livraison</li>
+                    <li>Accéder à l'historique de vos achats</li>
+                    <li>Recevoir des offres exclusives</li>
+                </ul>
+            </div>
+        </div>`;
+    } else {
+        const avatarHTML = currentUser.avatar
+            ? `<img src="${currentUser.avatar}" alt="Avatar">`
+            : `<span style="font-size:28px;">👤</span>`;
+        el.innerHTML = `
+        <div class="profile-card">
+            <div class="profile-card-avatar">${avatarHTML}</div>
+            <div class="profile-card-info">
+                <h3>${currentUser.firstname} ${currentUser.lastname}</h3>
+                <p><i class="ti ti-phone" style="font-size:11px;"></i> ${currentUser.phone}</p>
+                ${currentUser.email ? `<p><i class="ti ti-mail" style="font-size:11px;"></i> ${currentUser.email}</p>` : ''}
+                <p style="margin-top:4px;font-size:10px;background:rgba(255,255,255,0.2);display:inline-block;padding:2px 8px;border-radius:10px;">✅ Compte vérifié</p>
+            </div>
+        </div>
+        <div class="profile-menu-item" onclick="showToast('Fonctionnalité bientôt disponible','success')">
+            <div class="profile-menu-icon"><i class="ti ti-package"></i></div>
+            <div class="profile-menu-text">
+                <div class="profile-menu-title">Mes commandes</div>
+                <div class="profile-menu-desc">Suivre et historique de commandes</div>
+            </div>
+            <i class="ti ti-chevron-right profile-menu-arrow"></i>
+        </div>
+        <div class="profile-menu-item" onclick="showToast('Fonctionnalité bientôt disponible','success')">
+            <div class="profile-menu-icon"><i class="ti ti-map-pin"></i></div>
+            <div class="profile-menu-text">
+                <div class="profile-menu-title">Adresses de livraison</div>
+                <div class="profile-menu-desc">${currentUser.address || 'Ajouter une adresse'}</div>
+            </div>
+            <i class="ti ti-chevron-right profile-menu-arrow"></i>
+        </div>
+        <div class="profile-menu-item" onclick="showToast('Fonctionnalité bientôt disponible','success')">
+            <div class="profile-menu-icon"><i class="ti ti-heart"></i></div>
+            <div class="profile-menu-text">
+                <div class="profile-menu-title">Mes favoris</div>
+                <div class="profile-menu-desc">Poissons sauvegardés</div>
+            </div>
+            <i class="ti ti-chevron-right profile-menu-arrow"></i>
+        </div>
+        <div class="profile-menu-item" onclick="showToast('Fonctionnalité bientôt disponible','success')">
+            <div class="profile-menu-icon"><i class="ti ti-bell"></i></div>
+            <div class="profile-menu-text">
+                <div class="profile-menu-title">Notifications</div>
+                <div class="profile-menu-desc">Gérer les alertes et promotions</div>
+            </div>
+            <i class="ti ti-chevron-right profile-menu-arrow"></i>
+        </div>
+        <div class="profile-menu-item" onclick="openEditProfile()">
+            <div class="profile-menu-icon"><i class="ti ti-user-edit"></i></div>
+            <div class="profile-menu-text">
+                <div class="profile-menu-title">Modifier mon profil</div>
+                <div class="profile-menu-desc">Nom, téléphone, adresse, photo</div>
+            </div>
+            <i class="ti ti-chevron-right profile-menu-arrow"></i>
+        </div>
+        <button class="logout-btn" onclick="doLogout()">
+            <i class="ti ti-logout"></i> Se déconnecter
+        </button>`;
+    }
+}
+
+function openEditProfile() {
+    if (!currentUser) return;
+    showToast('Fonctionnalité de modification bientôt disponible', 'success');
+}
+
+// ═══════ AUTH ═══════
+function openAuthModal(tab) {
+    document.getElementById('auth-modal').classList.add('open');
+    switchAuthTab(tab || 'login');
+}
+function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+}
+document.getElementById('auth-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal('auth-modal');
+});
+
+function switchAuthTab(tab) {
+    document.getElementById('form-login').style.display = tab === 'login' ? '' : 'none';
+    document.getElementById('form-register').style.display = tab === 'register' ? '' : 'none';
+    document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+    document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+}
+
+function togglePwd(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const isText = input.type === 'text';
+    input.type = isText ? 'password' : 'text';
+    btn.innerHTML = isText ? '<i class="ti ti-eye"></i>' : '<i class="ti ti-eye-off"></i>';
+}
+
+function triggerAvatarUpload() {
+    document.getElementById('avatar-file-input').click();
+}
+
+function handleAvatarUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        currentAvatarData = e.target.result;
+        const prev = document.getElementById('register-avatar-preview');
+        if (prev) {
+            prev.innerHTML = `<img src="${currentAvatarData}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+            <div class="avatar-edit-overlay">Modifier</div>`;
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+function doRegister() {
+    const firstname = document.getElementById('reg-firstname').value.trim();
+    const lastname = document.getElementById('reg-lastname').value.trim();
+    const phone = document.getElementById('reg-phone').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const address = document.getElementById('reg-address').value.trim();
+    const pwd = document.getElementById('reg-password').value;
+    const pwd2 = document.getElementById('reg-password2').value;
+    if (!firstname || !lastname) { showToast('Veuillez saisir votre nom complet', 'error'); return; }
+    if (!phone) { showToast('Le numéro de téléphone est requis', 'error'); return; }
+    if (pwd.length < 6) { showToast('Le mot de passe doit faire au moins 6 caractères', 'error'); return; }
+    if (pwd !== pwd2) { showToast('Les mots de passe ne correspondent pas', 'error'); return; }
+    const users = getUsers();
+    if (users.find(u => u.phone === phone)) { showToast('Ce numéro est déjà utilisé', 'error'); return; }
+    const newUser = { id: Date.now(), firstname, lastname, phone, email, address, password: pwd, avatar: currentAvatarData || null, createdAt: new Date().toISOString() };
+    users.push(newUser);
+    saveUsers(users);
+    saveCurrentUser(newUser);
+    closeModal('auth-modal');
+    goScreen('profil');
+    showToast('✅ Compte créé avec succès ! Bienvenue ' + firstname + ' !', 'success');
+    currentAvatarData = null;
+}
+
+function doLogin() {
+    const identifier = document.getElementById('login-email').value.trim();
+    const pwd = document.getElementById('login-password').value;
+    if (!identifier || !pwd) { showToast('Veuillez remplir tous les champs', 'error'); return; }
+    const users = getUsers();
+    const user = users.find(u => (u.phone === identifier || u.email === identifier) && u.password === pwd);
+    if (!user) { showToast('Identifiant ou mot de passe incorrect', 'error'); return; }
+    saveCurrentUser(user);
+    closeModal('auth-modal');
+    goScreen('profil');
+    showToast('✅ Bienvenue ' + user.firstname + ' !', 'success');
+}
+
+function doLogout() {
+    if (!confirm('Voulez-vous vraiment vous déconnecter ?')) return;
+    clearCurrentUser();
+    goScreen('home');
+    showToast('Vous avez été déconnecté', 'success');
+}
+
+function socialLogin(provider) {
+    // Simulation
+    const fakeUser = {
+        id: Date.now(),
+        firstname: provider === 'google' ? 'Utilisateur' : 'Utilisateur',
+        lastname: provider === 'google' ? 'Google' : 'Facebook',
+        phone: '07 00 00 00 00',
+        email: `user@${provider}.com`,
+        address: '',
+        avatar: null,
+        createdAt: new Date().toISOString()
+    };
+    saveCurrentUser(fakeUser);
+    closeModal('auth-modal');
+    goScreen('profil');
+    showToast('✅ Connecté via ' + (provider === 'google' ? 'Google' : 'Facebook') + ' !', 'success');
+}
+
+function showForgot() {
+    showToast('Réinitialisation envoyée par SMS', 'success');
+}
+
+// ═══════ VENDOR ═══════
+function toggleAddProductForm() {
+    const f = document.getElementById('add-product-form');
+    f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function showPendingOrders() {
+    const el = document.getElementById('pending-orders');
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function addNewProduct() {
+    const name = document.getElementById('new-fish-name').value.trim();
+    const price = parseInt(document.getElementById('new-fish-price').value);
+    const stock = parseInt(document.getElementById('new-fish-stock').value);
+    const coop = document.getElementById('new-fish-coop').value.trim();
+    if (!name || !price || !stock) { showToast('Veuillez remplir tous les champs requis', 'error'); return; }
+    newProductCount++;
+    const newP = {
+        id: 100 + newProductCount, name, sub: coop||'Vendeur', price, key: 'sardine',
+        date: "Aujourd'hui", coop: coop||'Vendeur', stock, cat: 'mer',
+        desc: 'Poisson frais ajouté par le vendeur. ' + name + ' du port de San Pedro.'
+    };
+    products.push(newP);
+    document.getElementById('new-fish-name').value = '';
+    document.getElementById('new-fish-price').value = '';
+    document.getElementById('new-fish-stock').value = '';
+    document.getElementById('new-fish-coop').value = '';
+    toggleAddProductForm();
+    // Update stock counter
+    const vStock = document.getElementById('v-stock');
+    if (vStock) vStock.textContent = parseInt(vStock.textContent||0) + stock;
+    showToast('✅ ' + name + ' publié avec succès !', 'success');
+}
+
+// ═══════ TOAST ═══════
+function showToast(message, type) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast';
+    if (type === 'success') toast.classList.add('success');
+    if (type === 'error') toast.classList.add('error');
+    toast.classList.add('show');
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ═══════ QR CODE ═══════
+function initQR() {
+    const url = window.location.href.split('#')[0] + '#app';
+    const canvas = document.getElementById('qr-canvas');
+    if (canvas && typeof QRCode !== 'undefined') {
+        QRCode.toCanvas(canvas, url, { width: 180, margin: 1, errorCorrectionLevel: 'M', color: { dark: '#0F6E56', light: '#ffffff' } });
+    }
+}
+
+// ═══════ NAVIGATION ═══════
+window.openApp = function() {
+    document.getElementById('slide').style.display = 'none';
+    document.getElementById('app-view').style.display = 'flex';
+    currentUser = getCurrentUser();
+    updateUIForUser();
+    renderProducts();
+    updateCartBadge();
+    window.location.hash = '#app';
+};
+window.closeApp = function() {
+    document.getElementById('app-view').style.display = 'none';
+    document.getElementById('slide').style.display = 'flex';
+    window.location.hash = '';
+};
+
+window.addEventListener('load', function() {
+    initQR();
+    currentUser = getCurrentUser();
+    if (window.location.hash === '#app') { openApp(); }
+    renderProducts();
+    updateCartBadge();
+});
+
+// Expositions globales
+Object.assign(window, {
+    showDetail, changeDetailQty, quickAdd, addToCartFromDetail, removeFromCart,
+    selectPayment, confirmOrder, resetApp, goScreen, filterProducts, filterCat,
+    renderCart, renderProducts, updateCartBadge, openAuthModal, closeModal,
+    switchAuthTab, togglePwd, doLogin, doRegister, doLogout, socialLogin,
+    showForgot, toggleAddProductForm, showPendingOrders, addNewProduct,
+    triggerAvatarUpload, handleAvatarUpload, openEditProfile
+});
+
+})();
+</script>
+</body>
+</html>
